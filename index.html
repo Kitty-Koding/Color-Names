@@ -1,36 +1,32 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>D3.js Demo Example</title>
-  <script src="https://d3js.org/d3.v4.js"></script>
+  <title>D3 Color Chart</title>
+  <script src="https://d3js.org/d3.v4.min.js"></script>
 </head>
 <body>
-  <h1>Bar Chart</h1>
-  <button id="rand">Randomize</button>
+  <h1>D3 Color Bars</h1>
 
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       const w = 500, h = 300;
-      const margin = { left: 30, right: 30, top: 20, bottom: 20 };
-
       const chart = d3.select("body")
         .append("svg")
-        .style("border", "1px solid black")
-        .attr("width", w + margin.left + margin.right)
-        .attr("height", h + margin.top + margin.bottom);
+        .attr("width", w)
+        .attr("height", h)
+        .style("border", "1px solid black");
 
-      d3.csv("https://raw.githubusercontent.com/Kitty-Koding/Datasets/refs/heads/main/ColorData.csv")
-        .then(function(data) {
-          chart.selectAll("rect")
-            .data(data)
-            .enter()
-            .append("rect")
-            .attr("x", 100)           // Number, not "100px"
-            .attr("y", 100)
-            .attr("width", 100)
-            .attr("height", 100)
-            .style("fill", "orange"); // Optional: add fill to see it clearly
-        });
+      d3.csv("ColorData.csv").then(function(data) {
+        chart.selectAll("rect")
+          .data(data)
+          .enter()
+          .append("rect")
+          .attr("x", (d, i) => 60 + i * 110)
+          .attr("y", 100)
+          .attr("width", 100)
+          .attr("height", 100)
+          .style("fill", d => d.Hex);
+      });
     });
   </script>
 </body>
